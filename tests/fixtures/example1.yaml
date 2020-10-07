@@ -1,0 +1,42 @@
+base: /
+baseVariants:
+    - base: x
+      condition: xxx
+errorHandling:
+    - errorCode: 404
+      errorHandler: Page
+      errorContentSource: '100'
+languages:
+    - title: 'Language 1'
+      enabled: false
+      typo3Language: default
+      languageId: 0
+      locale: de
+      iso-639-1: ab
+      websiteTitle: ''
+      navigationTitle: ''
+      hreflang: ''
+      direction: ""
+      base: /
+      fallbackType: strict
+      flag: "gb"
+    - title: 'Language 2'
+      enabled: true
+      typo3Language: de
+      navigationTitle: xxx
+      languageId: 1
+      locale: de
+      base: /
+      iso-639-1: dz
+      fallbackType: strict
+      websiteTitle: ''
+      hreflang: ''
+      direction: ''
+      fallbacks: '11,2,16,1,12,17'
+      flag: global
+rootPageId: 275
+routeEnhancers:
+    - PageTypeSuffix:
+          type: Extbase
+
+websiteTitle: ''

@@ -21,3 +21,12 @@ TBD, I guess google should help
 ## Next steps
 
 1. Finish site config
+
+## Testing
+
+```bash
+cd tests
+npm install
+npm test
+```
+Thanks to https://github.com/buildkite/pipeline-schema/ for inspiration
