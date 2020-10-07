@@ -1,0 +1,315 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$comment": "https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions",
+    "properties": {
+        "base": {
+            "description": "Base URL. This is the URL under which this site is available",
+            "type": "string"
+        },
+        "rootPageId": {
+            "description": "ID of the page where this site begins",
+            "type": "integer"
+        },
+        "languages": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/language"
+            }
+        },
+        "baseVariants": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/baseVariants"
+            }
+        },
+        "errorHandling": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/errorHandling"
+            }
+        },
+        "routes": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/routes"
+            }
+        },
+        "routeEnhancers": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/routeEnhancers"
+            }
+        },
+        "settings": {
+            "anyOf": [
+                {
+                    "type": [
+                        "array",
+                        "object"
+                    ]
+                }
+            ]
+        }
+    },
+    "definitions": {
+        "baseVariants": {
+            "type": "object",
+            "properties": {
+                "base": {
+                    "type": "string"
+                },
+                "condition": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "base",
+                "condition"
+            ],
+            "additionalProperties": false
+        },
+        "routeEnhancers": {
+            "$comment": "https://help.github.com/en/github/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobs",
+            "description": "A workflow run is made up of one or more jobs. Jobs run in parallel by default. To run jobs sequentially, you can define dependencies on other jobs using the jobs.<job_id>.needs keyword.\nEach job runs in a fresh instance of the virtual environment specified by runs-on.\nYou can run an unlimited number of jobs as long as you are within the workflow usage limits. For more information, see https://help.github.com/en/github/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#usage-limits.",
+            "type": "object",
+            "patternProperties": {
+                "^[_a-zA-Z][a-zA-Z0-9_-]*$": {
+                    "description": "route enhancer",
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "anyOf": [
+                                {
+                                    "type": "string",
+                                    "enum": [
+                                        "PageType",
+                                        "Extbase"
+                                    ]
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "required": [
+                        "type"
+                    ],
+                    "additionalProperties": true
+                }
+            },
+            "minProperties": 1,
+            "additionalProperties": false
+        },
+        "errorHandling": {
+            "type": "object",
+            "properties": {
+                "errorCode": {
+                    "description": "Make sure to have at least 0 (not defined otherwise) configured in order to serve helpful error messages to your visitors.",
+                    "type": "integer",
+                    "anyOf": [
+                        {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                404,
+                                403,
+                                500,
+                                503
+                            ]
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "errorHandler": {
+                    "description": "How to handle Errors",
+                    "type": "string",
+                    "enum": [
+                        "Page",
+                        "Fluid",
+                        "PHP"
+                    ]
+                },
+                "errorContentSource": {
+                    "description": "Show Content from Page",
+                    "type": "string"
+                },
+                "errorFluidTemplate": {
+                    "description": "Path to the fluid template file given by absolute, relative path (from site root) or by referring the template file inside an extension with \"EXT:\" prefix.",
+                    "type": "string"
+                },
+                "errorPhpClassFQCN": {
+                    "description": "Fully qualified class name to a class that implements the PageErrorHandlerInterface.",
+                    "type": "string"
+                },
+                "errorFluidTemplatesRootPath": {
+                    "type": "string"
+                },
+                "errorFluidLayoutsRootPath": {
+                    "type": "string"
+                },
+                "errorFluidPartialsRootPath": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "errorCode",
+                "errorHandler"
+            ],
+            "additionalProperties": false
+        },
+        "routes": {
+            "type": "object",
+            "properties": {
+                "route": {
+                    "description": "Static Route Name",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Route Type",
+                    "type": "string",
+                    "enum": [
+                        "uri",
+                        "staticText"
+                    ]
+                },
+                "source": {
+                    "description": "Page, File or URL",
+                    "type": "string"
+                },
+                "content": {
+                    "description": "Static Text",
+                    "type": "string"
+                },
+                "if": {
+                    "properties": {
+                        "type": {
+                            "const": "uri"
+                        }
+                    }
+                },
+                "then": {
+                    "required": [
+                        "source"
+                    ]
+                },
+                "else": {
+                    "required": [
+                        "content"
+                    ]
+                }
+            },
+            "required": [
+                "route",
+                "type"
+            ],
+            "additionalProperties": false
+        },
+        "language": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "description": "Title",
+                    "type": "string"
+                },
+                "enabled": {
+                    "description": "Visible in Frontend",
+                    "type": "boolean"
+                },
+                "languageId": {
+                    "description": "ID of the related sys_language record",
+                    "type": "integer",
+                    "examples": [
+                        1
+                    ]
+                },
+                "base": {
+                    "description": "Use a full qualified domain \"https://www.mydomain.fr/\" or \"/fr/\". Use \"/\" to keep the main URL for the default language. Add language specific suffixes to use those, or configure complete URLs for independent domains.",
+                    "type": "string",
+                    "default": "/"
+                },
+                "typo3Language": {
+                    "description": "Select the language to be used from translation files. Keep default if no translation files are available.",
+                    "anyOf": [
+                        {
+                            "type": "string",
+                            "enum": [
+                                "default",
+                                "de",
+                                "fr"
+                            ]
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "locale": {
+                    "description": "Used for localized date and currency formats. E.g. \"de_DE\" or \"en_US.UTF-8\".",
+                    "type": "string"
+                },
+                "iso-639-1": {
+                    "description": "ISO 639-1 code of the Language",
+                    "type": "string"
+                },
+                "navigationTitle": {
+                    "description": "Used within language-related menus",
+                    "type": "string"
+                },
+                "hreflang": {
+                    "description": "Used within for \"lang\" and \"hreflang\" attributes",
+                    "type": "string"
+                },
+                "direction": {
+                    "description": "Language direction for \"dir\" attribute",
+                    "type": "string",
+                    "enum": [
+                        "",
+                        "ltr",
+                        "rtr"
+                    ]
+                },
+                "flag": {
+                    "type": "string"
+                },
+                "websiteTitle": {
+                    "description": "With this language based Website title, you can override the Website title for this language",
+                    "type": "string"
+                },
+                "fallbackType": {
+                    "description": "Fallback Type",
+                    "type": "string",
+                    "enum": [
+                        "strict",
+                        "fallback",
+                        "free"
+                    ],
+                    "default": "strict"
+                },
+                "fallbacks": {
+                    "description": "Fallback to other Language(s) - order is important! Comma separated list",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "title",
+                "enabled",
+                "languageId",
+                "base",
+                "locale",
+                "typo3Language",
+                "fallbackType"
+            ],
+            "additionalProperties": true
+        }
+    },
+    "required": [
+        "base",
+        "rootPageId",
+        "languages"
+    ],
+    "additionalProperties": true
+}
