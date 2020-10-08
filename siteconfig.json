@@ -31,7 +31,7 @@
         "routes": {
             "type": "array",
             "items": {
-                "$ref": "#/definitions/routes"
+                "$ref": "#/definitions/staticRoutes"
             }
         },
         "routeEnhancers": {
@@ -85,24 +85,6 @@
                         "additionalProperties": {
                             "type": "string"
                         }
-                    },
-                    "namespace": {
-                        "$comment": "plugin namespace",
-                        "type": "string"
-                    },
-                    "extension": {
-                        "$comment": "extbase",
-                        "type": "string",
-                        "pattern": "^([A-Z]{1})([a-zA-Z0-9]{0,30})$"
-                    },
-                    "plugin": {
-                        "$comment": "extbase",
-                        "type": "string"
-                    },
-                    "defaultController": {
-                        "$comment": "extbase",
-                        "type": "string",
-                        "pattern": "^([a-zA-Z0-9]{0,30})::([a-zA-Z0-9]{0,30})$"
                     },
                     "aspects": {
                         "type": "object",
@@ -318,6 +300,12 @@
                             }
                         },
                         "then": {
+                            "properties": {
+                                "namespace": {
+                                    "$comment": "plugin namespace",
+                                    "type": "string"
+                                }
+                            },
                             "required": [
                                 "type",
                                 "namespace",
@@ -334,6 +322,32 @@
                             }
                         },
                         "then": {
+                            "properties": {
+
+                                "defaults": {
+                                    "type": "object"
+                                },
+                                "routes": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/enhancerRoute"
+                                    }
+                                },
+                                "extension": {
+                                    "$comment": "extbase",
+                                    "type": "string",
+                                    "pattern": "^([A-Z]{1})([a-zA-Z0-9]{2,30})$"
+                                },
+                                "plugin": {
+                                    "$comment": "extbase",
+                                    "type": "string"
+                                },
+                                "defaultController": {
+                                    "$comment": "extbase",
+                                    "type": "string",
+                                    "pattern": "^([a-zA-Z0-9]{1,30})::([a-zA-Z0-9]{1,30})$"
+                                }
+                            },
                             "required": [
                                 "type",
                                 "extension",
@@ -357,6 +371,29 @@
         }
     },
     "definitions": {
+        "enhancerRoute": {
+            "type": "object",
+            "properties": {
+                "routePath": {
+                    "type": "string"
+                },
+                "_controller": {
+                    "type": "string",
+                    "pattern": "^([a-zA-Z0-9]{1,30})::([a-zA-Z0-9]{1,30})$"
+                },
+                "_arguments": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "routePath",
+                "_controller"
+            ],
+            "additionalProperties": false
+        },
         "baseVariants": {
             "type": "object",
             "properties": {
@@ -483,7 +520,7 @@
             ],
             "additionalProperties": false
         },
-        "routes": {
+        "staticRoutes": {
             "type": "object",
             "properties": {
                 "route": {
