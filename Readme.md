@@ -15,6 +15,8 @@ This is a **proof of concept** validating the TYPO3 site configuration.
    - **File path Pattern**: `**/sites/*/config.yaml`
 3. Provide path to the directory containg the yaml files.
 
+**IMPORTANT:** Currently I have troubles with validation having the schema remotely. I propose to clone the repository and define the path to the siteconfig.json file!
+
 ![Setup PhpStorm](assets/setup-phpstorm.png)
 
 ### All other IDEs
