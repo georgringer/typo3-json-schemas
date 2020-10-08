@@ -111,6 +111,7 @@
                     "anyOf": [
                         {
                             "type": "integer",
+                            "default": 404,
                             "enum": [
                                 0,
                                 404,
@@ -127,6 +128,7 @@
                 "errorHandler": {
                     "description": "How to handle Errors",
                     "type": "string",
+                    "default": "Page",
                     "enum": [
                         "Page",
                         "Fluid",
@@ -135,6 +137,7 @@
                 },
                 "errorContentSource": {
                     "description": "Show Content from Page",
+                    "examples": ["t3://page?uid=123"],
                     "type": "string"
                 },
                 "errorFluidTemplate": {
@@ -159,6 +162,56 @@
                 "errorCode",
                 "errorHandler"
             ],
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "errorHandler": {
+                                "const": "PHP"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "errorCode",
+                            "errorHandler",
+                            "errorPhpClassFQCN"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "errorHandler": {
+                                "const": "Fluid"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "errorCode",
+                            "errorHandler",
+                            "errorFluidTemplate"
+                        ]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "errorHandler": {
+                                "const": "Page"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": [
+                            "errorCode",
+                            "errorHandler",
+                            "errorContentSource"
+                        ]
+                    }
+                }
+            ]
             "additionalProperties": false
         },
         "routes": {
