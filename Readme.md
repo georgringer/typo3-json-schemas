@@ -5,6 +5,9 @@
 
 This is a **proof of concept** validating the TYPO3 site configuration.
 
+![Example](assets/example.png)
+
+
 ## Setup
 
 ### PhpStorm
