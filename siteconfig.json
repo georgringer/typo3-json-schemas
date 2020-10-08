@@ -35,9 +35,314 @@
             }
         },
         "routeEnhancers": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/routeEnhancers"
+            "description": "routeEnhancers transform arguments into nice urls. Docs can be found at https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ApiOverview/Routing/Index.html",
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "description": "Each enhancer must have a type",
+                "required": [
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "enum": [
+                                    "Simple",
+                                    "Plugin",
+                                    "Extbase",
+                                    "PageType"
+                                ]
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "default": {
+                        "type": "string"
+                    },
+                    "routePath": {
+                        "type": "string"
+                    },
+                    "limitToPages": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "requirements": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
+                    "_arguments": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
+                    "namespace": {
+                        "$comment": "plugin namespace",
+                        "type": "string"
+                    },
+                    "extension": {
+                        "$comment": "extbase",
+                        "type": "string",
+                        "pattern": "^([A-Z]{1})([a-zA-Z0-9]{0,30})$"
+                    },
+                    "plugin": {
+                        "$comment": "extbase",
+                        "type": "string"
+                    },
+                    "defaultController": {
+                        "$comment": "extbase",
+                        "type": "string",
+                        "pattern": "^([a-zA-Z0-9]{0,30})::([a-zA-Z0-9]{0,30})$"
+                    },
+                    "aspects": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object",
+                            "required": [
+                                "type"
+                            ],
+                            "properties": {
+                                "type": {
+                                    "title": "Type of aspect",
+                                    "type": "string",
+                                    "anyOf": [
+                                        {
+                                            "type": "string",
+                                            "enum": [
+                                                "LocaleModifier",
+                                                "PersistedAliasMapper",
+                                                "PersistedPatternMapper",
+                                                "StaticRangeMapper",
+                                                "StaticValueMapper"
+                                            ]
+                                        },
+                                        {
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "allOf": [
+                                {
+                                    "if": {
+                                        "properties": {
+                                            "type": {
+                                                "const": "PersistedAliasMapper"
+                                            }
+                                        }
+                                    },
+                                    "then": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "type": {
+                                                "type": "string"
+                                            },
+                                            "tableName": {
+                                                "type": "string"
+                                            },
+                                            "routeFieldName": {
+                                                "type": "string"
+                                            },
+                                            "routeValuePrefix": {
+                                                "type": "string",
+                                                "examples": [
+                                                    "",
+                                                    "/"
+                                                ],
+                                                "maxLength": 1
+                                            }
+                                        },
+                                        "required": [
+                                            "type",
+                                            "routeFieldName",
+                                            "tableName"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "if": {
+                                        "properties": {
+                                            "type": {
+                                                "const": "PersistedPatternMapper"
+                                            }
+                                        }
+                                    },
+                                    "then": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "type": {
+                                                "type": "string"
+                                            },
+                                            "tableName": {
+                                                "type": "string"
+                                            },
+                                            "routeFieldName": {
+                                                "type": "string"
+                                            },
+                                            "routeValuePrefix": {
+                                                "type": "string",
+                                                "examples": [
+                                                    "",
+                                                    "/"
+                                                ],
+                                                "maxLength": 1
+                                            }
+                                        },
+                                        "required": [
+                                            "type",
+                                            "routeFieldName",
+                                            "tableName"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "if": {
+                                        "properties": {
+                                            "type": {
+                                                "const": "LocaleModifier"
+                                            }
+                                        }
+                                    },
+                                    "then": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "type": {
+                                                "type": "string"
+                                            },
+                                            "default": {
+                                                "type": "string"
+                                            },
+                                            "localeMap": {
+                                                "type": "array",
+                                                "items": {
+                                                    "$ref": "#/definitions/localeMap"
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "type",
+                                            "default",
+                                            "localeMap"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "if": {
+                                        "properties": {
+                                            "type": {
+                                                "const": "StaticRangeMapper"
+                                            }
+                                        }
+                                    },
+                                    "then": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "type": {
+                                                "type": "string"
+                                            },
+                                            "start": {
+                                                "type": "string"
+                                            },
+                                            "end": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "type",
+                                            "start",
+                                            "end"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "if": {
+                                        "properties": {
+                                            "type": {
+                                                "const": "StaticValueMapper"
+                                            }
+                                        }
+                                    },
+                                    "then": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "type": {
+                                                "type": "string"
+                                            },
+                                            "map": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "required": [
+                                            "type",
+                                            "map"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "allOf": [
+                    {
+                        "if": {
+                            "properties": {
+                                "type": {
+                                    "const": "Simple"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "type",
+                                "routePath",
+                                "_arguments"
+                            ]
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "type": {
+                                    "const": "Plugin"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "type",
+                                "namespace",
+                                "requirements"
+                            ]
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "type": {
+                                    "const": "Extbase"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "type",
+                                "extension",
+                                "plugin",
+                                "defaultController"
+                            ]
+                        }
+                    }
+                ]
             }
         },
         "settings": {
@@ -66,40 +371,6 @@
                 "base",
                 "condition"
             ],
-            "additionalProperties": false
-        },
-        "routeEnhancers": {
-            "$comment": "https://help.github.com/en/github/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobs",
-            "description": "A workflow run is made up of one or more jobs. Jobs run in parallel by default. To run jobs sequentially, you can define dependencies on other jobs using the jobs.<job_id>.needs keyword.\nEach job runs in a fresh instance of the virtual environment specified by runs-on.\nYou can run an unlimited number of jobs as long as you are within the workflow usage limits. For more information, see https://help.github.com/en/github/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#usage-limits.",
-            "type": "object",
-            "patternProperties": {
-                "^[_a-zA-Z][a-zA-Z0-9_-]*$": {
-                    "description": "route enhancer",
-                    "type": "object",
-                    "properties": {
-                        "type": {
-                            "type": "string",
-                            "anyOf": [
-                                {
-                                    "type": "string",
-                                    "enum": [
-                                        "PageType",
-                                        "Extbase"
-                                    ]
-                                },
-                                {
-                                    "type": "string"
-                                }
-                            ]
-                        }
-                    },
-                    "required": [
-                        "type"
-                    ],
-                    "additionalProperties": true
-                }
-            },
-            "minProperties": 1,
             "additionalProperties": false
         },
         "errorHandling": {
@@ -137,7 +408,9 @@
                 },
                 "errorContentSource": {
                     "description": "Show Content from Page",
-                    "examples": ["t3://page?uid=123"],
+                    "examples": [
+                        "t3://page?uid=123"
+                    ],
                     "type": "string"
                 },
                 "errorFluidTemplate": {
@@ -158,10 +431,6 @@
                     "type": "string"
                 }
             },
-            "required": [
-                "errorCode",
-                "errorHandler"
-            ],
             "allOf": [
                 {
                     "if": {
@@ -211,7 +480,7 @@
                         ]
                     }
                 }
-            ]
+            ],
             "additionalProperties": false
         },
         "routes": {
@@ -259,6 +528,19 @@
                 "route",
                 "type"
             ],
+            "additionalProperties": false
+        },
+        "localeMap": {
+            "type": "object",
+            "minItems": 1,
+            "properties": {
+                "locale": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
             "additionalProperties": false
         },
         "language": {
@@ -855,8 +1137,7 @@
                 "languageId",
                 "base",
                 "locale",
-                "typo3Language",
-                "fallbackType"
+                "typo3Language"
             ],
             "additionalProperties": true
         }
