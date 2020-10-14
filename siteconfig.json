@@ -412,7 +412,7 @@
         },
         "errorHandling": {
             "type": "object",
-            "properties": {
+            "additionalProperties": {
                 "errorCode": {
                     "description": "Make sure to have at least 0 (not defined otherwise) configured in order to serve helpful error messages to your visitors.",
                     "type": "integer",
@@ -443,30 +443,6 @@
                         "PHP"
                     ]
                 },
-                "errorContentSource": {
-                    "description": "Show Content from Page",
-                    "examples": [
-                        "t3://page?uid=123"
-                    ],
-                    "type": "string"
-                },
-                "errorFluidTemplate": {
-                    "description": "Path to the fluid template file given by absolute, relative path (from site root) or by referring the template file inside an extension with \"EXT:\" prefix.",
-                    "type": "string"
-                },
-                "errorPhpClassFQCN": {
-                    "description": "Fully qualified class name to a class that implements the PageErrorHandlerInterface.",
-                    "type": "string"
-                },
-                "errorFluidTemplatesRootPath": {
-                    "type": "string"
-                },
-                "errorFluidLayoutsRootPath": {
-                    "type": "string"
-                },
-                "errorFluidPartialsRootPath": {
-                    "type": "string"
-                }
             },
             "allOf": [
                 {
@@ -478,6 +454,19 @@
                         }
                     },
                     "then": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "errorCode": {
+                                "type": "integer"
+                            },
+                            "errorHandler": {
+                                "type": "string"
+                            },
+                            "errorPhpClassFQCN": {
+                                "description": "Fully qualified class name to a class that implements the PageErrorHandlerInterface.",
+                                "type": "string"
+                            }
+                        },
                         "required": [
                             "errorCode",
                             "errorHandler",
@@ -494,6 +483,28 @@
                         }
                     },
                     "then": {
+                        "additionalProperties": false,
+                        "properties": {
+                            "errorCode": {
+                                "type": "integer"
+                            },
+                            "errorHandler": {
+                                "type": "string"
+                            },
+                            "errorFluidTemplate": {
+                                "description": "Path to the fluid template file given by absolute, relative path (from site root) or by referring the template file inside an extension with \"EXT:\" prefix.",
+                                "type": "string"
+                            },
+                            "errorFluidTemplatesRootPath": {
+                                "type": "string"
+                            },
+                            "errorFluidLayoutsRootPath": {
+                                "type": "string"
+                            },
+                            "errorFluidPartialsRootPath": {
+                                "type": "string"
+                            }
+                        },
                         "required": [
                             "errorCode",
                             "errorHandler",
@@ -509,7 +520,23 @@
                             }
                         }
                     },
+
                     "then": {
+                        "properties": {
+                            "errorCode": {
+                                "type": "integer"
+                            },
+                            "errorHandler": {
+                                "type": "string"
+                            },
+                            "errorContentSource": {
+                                "description": "Show Content from Page",
+                                "examples": [
+                                    "t3://page?uid=123"
+                                ],
+                                "type": "string"
+                            }
+                        },
                         "required": [
                             "errorCode",
                             "errorHandler",
