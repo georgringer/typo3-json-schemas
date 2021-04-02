@@ -81,3 +81,11 @@ routeEnhancers:
                     march: 3
 
 websiteTitle: ''
+settings:
+  redirects:
+    autoCreateRedirects: false
+    autoUpdateSlugs: false
+    redirectTTL: 30
+    httpStatusCode: 307
+
+
