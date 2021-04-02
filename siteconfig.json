@@ -360,14 +360,13 @@
             }
         },
         "settings": {
-            "anyOf": [
-                {
-                    "type": [
-                        "array",
-                        "object"
-                    ]
+            "type": "object",
+            "properties": {
+                "redirects": {
+                    "$ref": "#/definitions/redirects"
                 }
-            ]
+            },
+            "additionalProperties": true
         }
     },
     "definitions": {
@@ -408,6 +407,44 @@
                 "base",
                 "condition"
             ],
+            "additionalProperties": false
+        },
+        "redirects": {
+            "type": "object",
+            "properties": {
+                "autoUpdateSlugs": {
+                    "description": "Automatically update slugs of all sub pages. Default: true",
+                    "type": "boolean"
+                },
+                "autoCreateRedirects": {
+                    "description": "Automatically create redirects for pages with a new slug (works only in LIVE workspace). Default: true",
+                    "type": "boolean"
+                },
+                "redirectTTL": {
+                    "description": "Time To Live in days for redirect records to be created - `0` disables TTL, no expiration. Default: 0",
+                    "type": "integer"
+                },
+                "httpStatusCode": {
+                    "description": "HTTP status code for the redirect, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections#Temporary_redirections. Default: 307",
+                    "type": "integer",
+                    "anyOf": [
+                        {
+                            "type": "integer",
+                            "enum": [
+                                300,
+                                301,
+                                302,
+                                303,
+                                304,
+                                305,
+                                306,
+                                307,
+                                308
+                            ]
+                        }
+                    ]
+                }
+            },
             "additionalProperties": false
         },
         "errorHandling": {
