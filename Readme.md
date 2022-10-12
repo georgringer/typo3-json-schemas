@@ -20,6 +20,30 @@ This is a **proof of concept** validating the TYPO3 site configuration.
 
 **IMPORTANT:** Currently I have troubles with validation having the schema remotely. I propose to clone the repository and define the path to the siteconfig.json file!
 
+### Visual Studio Code
+
+1. Install the plugin "redhat.vscode-yaml"
+2. Open the settings and search for "*yaml schemas*" and open the `settings.json`.
+3. Add the following config
+
+```
+"yaml.schemas": {
+    "https://raw.githubusercontent.com/georgringer/site-config-validation/master/siteconfig.json" : ["**/sites/*/config.yaml"],
+}
+```
+
+A basic configuration.json looks like this
+```json
+{
+    "explorer.confirmDelete": false,
+    "window.zoomLevel": 1,
+    "security.workspace.trust.untrustedFiles": "open",
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/georgringer/site-config-validation/master/siteconfig.json" : ["**/sites/*/config.yaml"],
+    }
+}
+```
+
 ![Setup PhpStorm](assets/setup-phpstorm.png)
 
 ### All other IDEs
