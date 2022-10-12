@@ -714,6 +714,12 @@
 					"type": "string",
 					"default": "/"
 				},
+				"baseVariants": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/baseVariants"
+					}
+				},
 				"typo3Language": {
 					"description": "Select the language to be used from translation files. Keep default if no translation files are available.",
 					"anyOf": [
